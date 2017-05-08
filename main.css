@@ -1,0 +1,41 @@
+* {
+    border: 1px solid black;
+}
+
+
+#container {
+    height: 99vh;
+}
+#left {
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+#right {
+    float: left;
+    width: 80%;
+    height: 100%;
+}
+#innerleft,#innerright {
+    padding: 10%;
+}
+
+#board {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    padding: 20%;
+    position: relative;
+}
+
+
+
+.tile {
+    position:absolute;
+    background-image: url('1.JPG'); 
+}
+
+.hole {
+    background-image: url('6.png');
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,);
+}
