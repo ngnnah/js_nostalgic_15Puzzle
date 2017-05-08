@@ -1,7 +1,13 @@
 NUM_TILES = 4;
 TILE_WIDTH = 400 / NUM_TILES;
 BACKGROUND = []
-function createTiles() {
+randomBG = []
+currentImgClass = "tile";
+listCLASSES = ["tile", "tile1", 'tile2', 'tile3', 'tile4'];
+function createTiles(currentImgClass) {
+    $('#board').empty();
+    BACKGROUND = [];
+    randomBG = [];
     for (var h = 0; h < NUM_TILES; h++) {
         for (var w=0; w < NUM_TILES; w++) { 
             var top = "-" +  (TILE_WIDTH * h).toString() +"px";
@@ -9,7 +15,8 @@ function createTiles() {
             BACKGROUND.push(left + " " + top);
         }
     }
-    var randomBG = validList(NUM_TILES);
+    randomBG = validList(NUM_TILES);
+   
     
     //CREATE CELLS and ID and class
     for (var h = 0; h < NUM_TILES; h++) {
@@ -18,7 +25,7 @@ function createTiles() {
             $('#board').append(cell);
             //ID ASSIGNMENT
             cell.id = "c" + h.toString() + w.toString();
-            $(cell).addClass("tile");
+            $(cell).addClass(currentImgClass);
             
             cell.style.top = (TILE_WIDTH * h).toString() +"px";
             cell.style.left = (TILE_WIDTH * w).toString() + "px";
@@ -35,6 +42,14 @@ function createTiles() {
             $(cell).css('background-position', BACKGROUND[pos]);
         }
     }
+    
+    //THE COMPLETE IMAGE
+    var f1 = $('.'+currentImgClass).first().css('background-image');
+    var f2 = $('.'+currentImgClass+':nth-child(2)').first().css('background-image');
+    var f3 = $('.'+currentImgClass).last().css('background-image');
+    // make sure that the two of three would be selected, eliminate choosing the hole as the background
+    var f = (f1 == f2 ? f1 : f3);
+    $('#complete').css('background-image', f);
 
 }
 function validList(n) {
@@ -84,9 +99,7 @@ function checkWin() {
     return true;
 }
 
-$(document).ready(function() {
-   createTiles(); 
-});
+
 
 $(document).keyup(function(event) {
    if (event.key == "ArrowLeft") {
@@ -97,12 +110,15 @@ $(document).keyup(function(event) {
        var toID = holdID[0] + holdID[1] + (Math.min((parseInt(holdID[2])+1), NUM_TILES-1));
        var to = $("#" + toID)
        var toPOSITION = to.css('background-position');
+
        
        hole.css('background-position', toPOSITION);
        hole.removeClass('hole');
+       
        to.css('background-position', holePOSITION);
        to.addClass('hole');
    }
+    
    if (event.key == "ArrowRight") {
        var hole = $("#board").find('.hole');
        var holdID = hole.attr('id');
@@ -151,5 +167,53 @@ $(document).keyup(function(event) {
            alert("Pwned it");
        }
    }
+   if (event.key == 'c' || event.key == "C") {
+       $("#C").click();
+   }
+    
+   if (event.key == 'r' || event.key == "R") {
+       $("#R").click();
+   }
+    
+    if (event.key == 'i' || event.key == "I") {
+       $("#I").click();
+   }
 });
 
+
+
+
+$(document).ready(function() {
+   createTiles(currentImgClass); 
+    //NEW IMAGE
+    $("#I").click(function() {
+        currentImgClass = listCLASSES[Math.floor(Math.random() * listCLASSES.length)];
+        createTiles(currentImgClass);
+    });
+    
+    
+    
+    
+    //NEW CONFIGURATION
+    $("#C").click(function() {
+        createTiles(currentImgClass);
+    });
+    
+    //RESET GAME
+    $("#R").click(function() {
+        for (var h = 0; h < NUM_TILES; h++) {
+            for (var w=0; w < NUM_TILES; w++) {
+                var cell = $("#c"+h+w);
+                cell.empty();
+                cell.removeClass();
+                cell.addClass(currentImgClass);
+                var index = NUM_TILES * h + w;
+                var pos = randomBG[index];
+                if (pos == NUM_TILES*NUM_TILES-1) {
+                    $(cell).addClass('hole');
+                }
+                $(cell).css('background-position', BACKGROUND[pos]);
+            }
+        }
+    });
+});
