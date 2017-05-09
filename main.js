@@ -2,8 +2,8 @@ NUM_TILES = 4;
 TILE_WIDTH = 400 / NUM_TILES;
 BACKGROUND = []
 randomBG = []
-currentImgClass = "tile";
-listCLASSES = ["tile", "tile1", 'tile2', 'tile3', 'tile4'];
+currentImgClass = "ta2";
+listCLASSES = ["t1", "t2", 't3', 'tvn', 'ta2'];
 function createTiles(currentImgClass) {
     $('#board').empty();
     BACKGROUND = [];
@@ -185,6 +185,7 @@ $(document).keyup(function(event) {
 
 $(document).ready(function() {
    createTiles(currentImgClass); 
+    
     //NEW IMAGE
     $("#I").click(function() {
         currentImgClass = listCLASSES[Math.floor(Math.random() * listCLASSES.length)];
@@ -216,4 +217,50 @@ $(document).ready(function() {
             }
         }
     });
+    
+    
+    //LET USER UPLOAD THEIR OWN IMG
+    $( "#choosefile" ).change(function() {
+        $("#own").attr('disabled', false);
+         //grab the first image in the fileList
+         f = this.files[0];
+
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var the_url = event.target.result;
+              //handlebars.js is a better solution than just inserting a string
+            var img = $('<img />', { 
+                  id: 'uploadIMG',
+                  src: the_url,
+                  class: 'center'
+                });
+            $('#previewown').prepend(img);
+        }
+      //when the file is read it triggers the onload event above.
+      reader.readAsDataURL(f);
+    });
+    
+    $('input[type=radio][name=img]').change(function() {
+        var checked = $('input[name=img]:checked').val();
+        currentImgClass = "t"+checked;
+
+        
+        createTiles(currentImgClass);
+        var divchecked = "#preview" + checked;
+
+        var img = $(divchecked).children('img')[0];
+        
+
+        var source = img.src;
+
+        var url = 'url("' + source + '")';
+        $("#board").children().css('background-image',url);
+
+        $('#complete').css('background-image', url);
+    });
+
 });
+
+
+
+

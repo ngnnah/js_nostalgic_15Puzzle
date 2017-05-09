@@ -14,7 +14,8 @@
     src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
     integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
     crossorigin="anonymous"></script>
-
+    
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
     <!-- Use mobile-aware viewport -->
     <meta name="viewport" content= "width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,27 +44,65 @@
     <div id="container">
        <div id="left">
            <div id="innerleft"> 
-            <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 10px;" id="I">New <u>I</u>mage</button>  
+            <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 10px;" id="I">New random <u>I</u>mage</button>  
                
                
                <button type="button" class="btn btn-success btn-lg btn-block" style="margin-bottom: 10px;" id="C">New <u>C</u>onfiguration</button>
                
-               <button id="R" type="button" class="btn btn-warning btn-lg btn-block" style="margin: 10px auto;" ><u>R</u>eset</button>
+               <button id="R" type="button" class="btn btn-warning btn-lg btn-block" style="margin: 10px auto;" ><u>R</u>eset Configuration</button>
                
                <div id='complete'> </div>
            </div>
            
         </div>
         
-        <div id='right'> 
-            <div id='innerright'> 
+        <div id='center'> 
+            <div id='innercenter'> 
                 
             <div id="board"> <!-- BOARD WITH 16 4x4 cells--> </div>
             
             </div>
         </div>
         
+        
+<div id="right">
+    <div id="innerright">
+        
+        
+      
 
-        </div>
+        
+        
+        
+        <form>
+        <div >
+            <input  type="radio" name="img" id="own" value="own" disabled> 
+            
+            <div style="margin: auto; width: 80%; padding-bottom: 10px;">
+                <span style="color: blue;"><b> USE YOUR OWN IMAGE</b>  </span> 
+                <input type="file" id="choosefile">
+            </div>
+            <div id="previewown"></div>
+            
+            
+        </div>    
+            
+          <div id="preview2"> 
+              <input  type="radio" name="img" value="2"> 
+            <img    class='center' src="2.jpg">
+            </div>
+            <div id="preview3">
+                <input type="radio" name="img" value="3"> 
+                <img  class='center' src="3.jpg">
+            </div>
+          
+            <div id="previewa2">
+                 <input  type="radio" name="img" value="a2"> <img class='center'  src="a2.jpg">
+            </div>
+         
+        </form>
+    </div>
+</div>
+</div>
     
 </body>
