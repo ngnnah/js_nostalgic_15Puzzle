@@ -3,8 +3,13 @@
 }
 
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 #container {
-    height: 99vh;
+    height: 100%;
 }
 #left {
     float: left;
@@ -18,12 +23,16 @@
 }
 #right {
     float: left;
-    width: 25%;
+    width: 20%;
     height: 100%;
 }
 
-#innerleft,#innercenter, innerright {
-    padding: 10%;
+#innerleft,#innercenter {
+    padding: 10% 5% 0 5%;
+}
+
+#innerright {
+    padding: 2% 5px 0 5px;
 }
 
 #board {
@@ -51,11 +60,7 @@
     height: 300px;
 }
 
-.t1 {
-    position:absolute;
-    background-image: url('1.jpg');
-    border: 1px solid white;
-}
+
 .t2 {
     position:absolute;
     background-image: url('2.jpg');
@@ -66,11 +71,7 @@
     background-image: url('3.jpg'); 
     border: 1px solid white;
 }
-.tvn {
-    position:absolute;
-    background-image: url('vn.jpg'); 
-    border: 1px solid white;
-}
+
 .town {
     border: 1px solid white;
      position:absolute;
@@ -79,13 +80,19 @@
 
 input[type=radio] {
     border: 0px;
-    width: 100%;
+    width: 20%;
     height: 2em;
+    margin-right: 5px;
 }
 
 IMG.center {
-    display: block;
     margin-left: auto;
     margin-right: auto;
     width: 100px;
+}
+
+
+.between {
+    margin: 15px 0;
+    border-bottom: 2px solid blue;
 }

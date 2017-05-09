@@ -1,9 +1,11 @@
-NUM_TILES = 4;
+NUM_TILES = 3;
 TILE_WIDTH = 400 / NUM_TILES;
 BACKGROUND = []
 randomBG = []
 currentImgClass = "ta2";
-listCLASSES = ["t1", "t2", 't3', 'tvn', 'ta2'];
+listCLASSES = ["t2", 't3',  'ta2'];
+
+
 function createTiles(currentImgClass) {
     $('#board').empty();
     BACKGROUND = [];
@@ -64,12 +66,18 @@ function validList(n) {
         list[j] = temp;
       }
   }
+    
+//If the grid width is odd, then the number of inversions in a solvable situation is even.
+//If the grid width is even, and the blank is on an even row counting from the bottom (second-last, fourth-last etc), then the number of inversions in a solvable situation is odd.
+//If the grid width is even, and the blank is on an odd row counting from the bottom (last, third-last, fifth-last etc) then the number of inversions in a solvable situation is even.
   function solvable(list) {
         var inversionSum = 0
         for (var i = 0; i < list.length; i++) {
         var inversion = 0;
         if (list[i] == (n*n-1)) {
-          inversion = Math.floor(i/n) + 1;
+            if (NUM_TILES%2 == 0) {
+                inversion = Math.floor(i/n) + 1;
+            } else { inversion == 0 };
         } else {
           for (var j = i; j < list.length; j++) {
             if (list[i]>list[j]) { 
@@ -77,6 +85,7 @@ function validList(n) {
             }
           } 
         }
+            
         inversionSum = inversionSum + inversion;
         }
      
@@ -85,23 +94,38 @@ function validList(n) {
     
   shuffle(list);
   while (!solvable(list)) { shuffle(list); }
+
   return list;
 }
 
 function checkWin() {
     for (var h = 0; h < NUM_TILES; h++) {
         for (var w=0; w < NUM_TILES; w++) {
-            var bg = $("#c" + h + w).css('background-position').replace(/-/g,'');
-            var expected = BACKGROUND[h*NUM_TILES + w].replace(/-/g,'');
+            //CLUMSY FIX - BUT WORK - fix the decimal-precision and negative sign bug
+            var bg = $("#c" + h + w).css('background-position').replace(/-/g,'').replace(/\..*?px/g,'px');
+            var expected = BACKGROUND[h*NUM_TILES + w].replace(/-/g,'').replace(/\..*?px/g,'px');;
+     
             if (bg != expected) {  return false; }
         }
     }
     return true;
 }
 
-
+function updateStatus() {
+ //CHECK FOR WINNING CONDITION
+   setTimeout(function() {
+        if (checkWin()) {  
+            $("#status").text("Photo accomplished!");
+            $("#status").addClass('label-success');
+        } else {
+            $("#status").text("Keep sliding. . .");
+            $("#status").removeClass('label-success');
+        }
+   },100);
+}
 
 $(document).keyup(function(event) {
+    updateStatus();
    if (event.key == "ArrowLeft") {
        var hole = $("#board").find('.hole');
        var holdID = hole.attr('id');
@@ -162,11 +186,9 @@ $(document).keyup(function(event) {
        to.addClass('hole');
    }
     
-   if (event.key == "Enter") {
-       if (checkWin()) {
-           alert("Pwned it");
-       }
-   }
+   
+
+   
    if (event.key == 'c' || event.key == "C") {
        $("#C").click();
    }
@@ -175,29 +197,45 @@ $(document).keyup(function(event) {
        $("#R").click();
    }
     
-    if (event.key == 'i' || event.key == "I") {
-       $("#I").click();
-   }
 });
 
 
 
 
 $(document).ready(function() {
-   createTiles(currentImgClass); 
-    
-    //NEW IMAGE
-    $("#I").click(function() {
-        currentImgClass = listCLASSES[Math.floor(Math.random() * listCLASSES.length)];
-        createTiles(currentImgClass);
+    createTiles(currentImgClass);
+    updateStatus();
+
+    //NEW DIFFICULTY
+    $("#go").click(function() {
+        NUM_TILES = parseInt($("#gotext").val());
+        if (2<= NUM_TILES) {
+           $("#fakeclick").click(); //click away from chosen file so user has to re-click "use own image" radio for this to work - STRANGE but cannot work around otherwise
+            TILE_WIDTH = 400 / NUM_TILES;
+            BACKGROUND = [];
+            randomBG = [];
+            listCLASSES = ["t2", 't3',  'ta2'];
+            createTiles(currentImgClass);
+            updateStatus();
+        } else {
+            alert("Not a valid level of difficulty");
+        }
+
     });
-    
-    
-    
-    
+
     //NEW CONFIGURATION
     $("#C").click(function() {
         createTiles(currentImgClass);
+        updateStatus();
+        var checked = $('input[name=img]:checked').val();
+        if (checked=="own") {
+            var divchecked = "#preview" + checked;
+            var img = $(divchecked).children('img')[0];
+            var source = img.src;
+            var url = 'url("' + source + '")';
+            $("#board").children().css('background-image',url);
+            $('#complete').css('background-image', url);
+        }
     });
     
     //RESET GAME
@@ -216,11 +254,13 @@ $(document).ready(function() {
                 $(cell).css('background-position', BACKGROUND[pos]);
             }
         }
+        updateStatus();
     });
     
     
     //LET USER UPLOAD THEIR OWN IMG
     $( "#choosefile" ).change(function() {
+        
         $("#own").attr('disabled', false);
          //grab the first image in the fileList
          f = this.files[0];
@@ -234,17 +274,23 @@ $(document).ready(function() {
                   src: the_url,
                   class: 'center'
                 });
+            $('#previewown').empty(); //CLEAR previous img if existed
             $('#previewown').prepend(img);
+
         }
       //when the file is read it triggers the onload event above.
+        
+    $("#fakeclick").click(); //click away from chosen file so user has to re-click "use own image" radio for this to work - STRANGE but cannot work around otherwise
       reader.readAsDataURL(f);
+        
     });
     
     $('input[type=radio][name=img]').change(function() {
+        $('input[type=radio][name=img]').blur();
+        $('#board').focus();
         var checked = $('input[name=img]:checked').val();
         currentImgClass = "t"+checked;
-
-        
+  
         createTiles(currentImgClass);
         var divchecked = "#preview" + checked;
 
@@ -257,6 +303,7 @@ $(document).ready(function() {
         $("#board").children().css('background-image',url);
 
         $('#complete').css('background-image', url);
+        updateStatus();
     });
 
 });
