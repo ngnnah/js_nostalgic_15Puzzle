@@ -2,8 +2,8 @@ NUM_TILES = 3;
 TILE_WIDTH = 400 / NUM_TILES;
 BACKGROUND = []
 randomBG = []
-currentImgClass = "ta2";
-listCLASSES = ["t2", 't3',  'ta2'];
+currentImgClass = "tmotor";
+listCLASSES = ["tmotor", 'tlion',  'tkiss'];
 
 
 function createTiles(currentImgClass) {
@@ -115,18 +115,30 @@ function updateStatus() {
  //CHECK FOR WINNING CONDITION
    setTimeout(function() {
         if (checkWin()) {  
-            $("#status").text("Photo accomplished!");
-            $("#status").addClass('label-success');
+            $("#status").text("Well done!");
+			$("#status").addClass('completed-puzzle');
+			document.getElementById('won').currentTime = 0 ;
+			document.getElementById('won').play();
+			
+         
         } else {
+			$("#status").removeClass('completed-puzzle');
             $("#status").text("Keep sliding. . .");
-            $("#status").removeClass('label-success');
+            
         }
    },100);
 }
 
 $(document).keyup(function(event) {
     updateStatus();
+	
+	var sound = document.getElementById('sliding');
+	
    if (event.key == "ArrowLeft") {
+	   
+	   sound.currentTime = 0;
+	   sound.play();
+	   
        var hole = $("#board").find('.hole');
        var holdID = hole.attr('id');
        var holePOSITION = hole.css('background-position');
@@ -144,6 +156,8 @@ $(document).keyup(function(event) {
    }
     
    if (event.key == "ArrowRight") {
+	   sound.currentTime = 0;
+	   sound.play();
        var hole = $("#board").find('.hole');
        var holdID = hole.attr('id');
        var holePOSITION = hole.css('background-position');
@@ -158,6 +172,8 @@ $(document).keyup(function(event) {
        to.addClass('hole');
    }
    if (event.key == "ArrowUp") {
+	   sound.currentTime = 0;
+	   sound.play();
        var hole = $("#board").find('.hole');
        var holdID = hole.attr('id');
        var holePOSITION = hole.css('background-position');
@@ -171,7 +187,10 @@ $(document).keyup(function(event) {
        to.css('background-position', holePOSITION);
        to.addClass('hole');
    }
+   
    if (event.key == "ArrowDown") {
+	   sound.currentTime = 0;
+	   sound.play();
        var hole = $("#board").find('.hole');
        var holdID = hole.attr('id');
        var holePOSITION = hole.css('background-position');
@@ -210,8 +229,9 @@ $(document).ready(function() {
     $("#go").click(function() {
         NUM_TILES = parseInt($("#gotext").val());
         if (2<= NUM_TILES) {
+			//BIG BUG
            $("#fakeclick").click(); //click away from chosen file so user has to re-click "use own image" radio for this to work - STRANGE but cannot work around otherwise
-            TILE_WIDTH = 400 / NUM_TILES;
+		   TILE_WIDTH = 400 / NUM_TILES;
             BACKGROUND = [];
             randomBG = [];
             listCLASSES = ["t2", 't3',  'ta2'];

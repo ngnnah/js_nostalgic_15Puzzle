@@ -41,6 +41,7 @@
 </head>
     
 <body>
+	
     <div id="container">
        <div id="left">
            <div id="innerleft"> 
@@ -60,7 +61,15 @@
                <button id="R" type="button" class="btn btn-warning btn-lg btn-block" style="margin: 10px auto;" ><u>R</u>eset Configuration</button>
                
                <div id='complete'> </div>
-                </div>
+			   <div class="foot">
+
+	  To use your own image, please resized it to (400px)x(400px). 
+	  Tool suggestion: <a style='color: white' href='http://www.simpleimageresizer.com/' target='_blank'>simpleimageresizer.com</a>
+</div>
+			   
+               </div>
+				
+				
            
         </div>
         
@@ -69,7 +78,7 @@
                 
             <div id="board"> <!-- BOARD WITH 16 4x4 cells--> </div>
             <div> 
-                <span class="label label-default" style="display: block; margin: 20px auto; font-size: 20px;" id="status">Keep sliding. . .</span>
+                <span class="label label-default" id="status">Keep sliding. . .</span>
                 </div>
             </div>
         </div>
@@ -78,50 +87,43 @@
 <div id="right">
     <div id="innerright">
         
-        
+    
         <form>
         <div class='between' >
             <input  type="radio" name="img" id="own" value="own" disabled> 
             <span  id="previewown"></span>
             <div style="margin: auto; width: 70%; padding-bottom: 10px;">
-                <span style="color: blue;"><b> USE YOUR OWN IMAGE</b>  </span> 
+                <span style="color: #5bc0de;"><b> USE YOUR OWN IMAGE</b>  </span> 
                 <input type="file" id="choosefile">
             </div>
             
             
             
         </div>    
-            
-          <div  class='between' id="preview2"> 
-              <input  id="fakeclick" type="radio" name="img" value="2"> 
-            <img    class='center' src="2.jpg">
+            <div  class='between' id="previewmotor">
+                 <input id='fakeclick' checked type="radio" name="img" value="motor"> 
+				 <img class='center'  src="motor.jpg">
+            </div>
+          <div  class='between' id="previewkiss"> 
+              <input type="radio" name="img" value="kiss"> 
+            <img    class='center' src="kiss.jpg">
             </div>
             
-            <div  class='between' id="preview3">
-                <input type="radio" name="img" value="3"> 
-                <img  class='center' src="3.jpg">
+            <div  class='between' id="previewlion">
+                <input type="radio" name="img" value="lion"> 
+                <img  class='center' src="lion.jpg">
             </div>
           
-            <div  class='between' id="previewa2">
-                 <input  type="radio" name="img" value="a2"> <img class='center'  src="a2.jpg">
-            </div>
-         
             
-            <footer class="footer">
-      <div class="container">
-        <span class="text-muted">
-          <p> In order to use your own image, it needs to be sized to (400px)x(400px). You can do that through http://www.simpleimageresizer.com/ ( select your image, then choose "dimensions" and put 400x400 for width and height. Resize and download). Now upload your (400px)x(400px) image through "Choose file" and you're ready to go! </p>
-          
-          </span>
-      </div>
-    </footer>
-            
-            .footer { position: absolute; bottom: 0; width: 100%; height: 60px; line-height: 60px; background-color: #f5f5f5; }
         </form>
     </div>
 </div>
+
+
 </div>
     
-    
-    
+                
+	
+    <audio src='sliding.wav' id='sliding' >
+	<audio src='won.wav' id='won' >
 </body>
