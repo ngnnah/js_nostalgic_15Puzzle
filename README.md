@@ -1,6 +1,6 @@
 
 # js_nostalgic_15Puzzle
-Written with HTML, JS, CSS, Bootstrap, FontAwesome, jQuery.
+A responsive web game, written with HTML, JS, CSS, Bootstrap, FontAwesome, jQuery.
 ## A super fun 15Puzzle game that evokes pure and raging nostalgia!
 #### I spent my childhood playing this little curious 15 puzzle hours on end:
 <img src='https://user-images.githubusercontent.com/58123635/122484918-ba785800-cfa3-11eb-8cd5-a6e4d801b6f6.png' height='300px' />
